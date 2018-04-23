@@ -18,12 +18,19 @@ export default {
   methods: {
     getCatPixelz: async function() {
 
-      const MODEL_LOC = '/web_model/tensorflowjs_model.pb'
-      const WEIGHTS_LOC = '/web_model/weights_manifest.json'
+      const MODEL_LOC = 'https://s3.amazonaws.com/web-model/image-classifier/tensorflowjs_model.pb'
+      const WEIGHTS_LOC = 'https://s3.amazonaws.com/web-model/image-classifier/weights_manifest.json'
 
-      const model = await loadFrozenModel(MODEL_LOC, WEIGHTS_LOC)
-      const cat = document.getElementByID('cat')
-      model.execute({input: tf.fromPixels(cat)})
+      try {
+        const model = await loadFrozenModel(MODEL_LOC, WEIGHTS_LOC)
+        console.log(model)
+        const cat = this.$el.querySelector("[id='cat']")
+        model.execute({input: {"Placeholder": tf.fromPixels(cat)}})
+        console.log(model)
+      }catch(err){
+        console.log(err)
+      }
+      
     
     }
   },
