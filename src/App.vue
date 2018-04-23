@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img id='cat' src="./assets/logo.png">
+    <img id='eval-img' src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
@@ -16,17 +16,19 @@ export default {
     HelloWorld
   },
   methods: {
-    getCatPixelz: async function() {
+    getImgPixelz: async function() {
 
       const MODEL_LOC = 'https://s3.amazonaws.com/web-model/image-classifier/tensorflowjs_model.pb'
       const WEIGHTS_LOC = 'https://s3.amazonaws.com/web-model/image-classifier/weights_manifest.json'
 
       try {
         const model = await loadFrozenModel(MODEL_LOC, WEIGHTS_LOC)
-        console.log(model)
-        const cat = this.$el.querySelector("[id='cat']")
-        model.execute({input: {"Placeholder": tf.fromPixels(cat)}})
-        console.log(model)
+          const evalImg = tf.cast(tf.fromPixels(this.$el.querySelector("[id='eval-img']")), 'float32')
+          const reshaped = evalImg.reshape([-1, 200, 100, 3])
+          console.log('boutta execute')
+          console.log(model)
+          var output = model.execute({'Placeholder': reshaped}, 'final_result')
+          console.log(output)
       }catch(err){
         console.log(err)
       }
@@ -35,9 +37,7 @@ export default {
     }
   },
   mounted() {
-    this.getCatPixelz()
-    
-    
+    this.getImgPixelz()
   }
 }
 </script>
