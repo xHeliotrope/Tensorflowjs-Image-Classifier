@@ -28,7 +28,12 @@ export default {
           console.log('boutta execute')
           console.log(model)
           var output = model.execute({'Placeholder': reshaped}, 'final_result')
+          var predictions = output.dataSync()
+          output.print()
+          console.log(predictions)
+          output.dispose()
           console.log(output)
+          console.log(predictions)
       }catch(err){
         console.log(err)
       }
