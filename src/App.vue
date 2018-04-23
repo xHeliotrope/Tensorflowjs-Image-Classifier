@@ -39,7 +39,6 @@ export default {
           const reshaped = evalImg.reshape([-1, 150, 168, 3])
           var output = model.execute({'Placeholder': reshaped}, 'final_result')
           var predictions = output.dataSync()
-          console.log(predictions)
           this.marioc = predictions[0]
           this.tayswif = predictions[1]
           this.ultwarr = predictions[2]
