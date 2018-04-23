@@ -1,7 +1,12 @@
 <template>
   <div id="app">
-    <img id='eval-img' src="./assets/logo.png">
+    <img id='eval-img' src="./assets/marioguitar.jpeg">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ul>
+      <li>Predicted Mario Camerena: {{marioc}}</li>
+      <li>Predicted Taylor Swift: {{tayswif}}</li>
+      <li>Predicted Ultimate Warrior: {{ultwarr}}</li>
+    </ul>
   </div>
 </template>
 
@@ -15,6 +20,13 @@ export default {
   components: {
     HelloWorld
   },
+  data: function() {
+    return {
+      'marioc': 0,
+      'tayswif': 0,
+      'ultwarr': 0
+    }
+  },
   methods: {
     getImgPixelz: async function() {
 
@@ -24,16 +36,13 @@ export default {
       try {
         const model = await loadFrozenModel(MODEL_LOC, WEIGHTS_LOC)
           const evalImg = tf.cast(tf.fromPixels(this.$el.querySelector("[id='eval-img']")), 'float32')
-          const reshaped = evalImg.reshape([-1, 200, 100, 3])
-          console.log('boutta execute')
-          console.log(model)
+          const reshaped = evalImg.reshape([-1, 150, 168, 3])
           var output = model.execute({'Placeholder': reshaped}, 'final_result')
           var predictions = output.dataSync()
-          output.print()
           console.log(predictions)
-          output.dispose()
-          console.log(output)
-          console.log(predictions)
+          this.marioc = predictions[0]
+          this.tayswif = predictions[1]
+          this.ultwarr = predictions[2]
       }catch(err){
         console.log(err)
       }
