@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p> This is where I'm gonna put <code>tensorflow.js</code> content </p>
   </div>
 </template>
 
