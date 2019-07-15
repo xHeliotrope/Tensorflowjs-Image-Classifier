@@ -1,2 +1,2 @@
 # ML-Info
-Informational github pages site using tensorflow.js + vuepress
+Informational github pages site using tensorflow.js
